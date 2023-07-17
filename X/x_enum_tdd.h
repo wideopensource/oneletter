@@ -1,6 +1,6 @@
 #pragma once
 
-#include "X.h"
+#include "../X.h"
 
 #define X_ENUM_NAME eut
 #define X_ITEM_PREFIX EUT
@@ -10,4 +10,4 @@
   X(ITEM2, = 3)                                                                \
   X(ITEM3, )
 
-#include "X_enum.h"
+#include "../X_enum.h"

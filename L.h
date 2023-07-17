@@ -1,9 +1,20 @@
+// todo foss: finish docs
+
 #pragma once
 
+/**
+ * @brief This optional library name tag can appear in all log output.
+ * 
+ */
 #ifndef L_LIB_TAG
 #define L_LIB_TAG unknown
 #endif
 
+/**
+ * @brief This module name tag will appear in all log output. It should be defined 
+ * once at the top of all module implementation files, before L.h.
+ * 
+ */
 #ifndef L_LOG_TAG
 #define L_LOG_TAG unknown
 #endif
