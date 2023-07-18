@@ -1,16 +1,29 @@
-// todo foss: tidying this up
-// todo foss: pull in more M_MAKER stuff
-
 #ifndef M_DEFINED
 #define M_DEFINED
-
-#ifndef M_LOGGER
-#define M_LOGGER L_LOGV
-#endif
 
 #include "C.h"
 #include "L.h"
 #include "X.h"
+
+#ifndef M_LOGE
+#define M_LOGE(...) L_LOGE(__VA_ARGS__)
+#endif
+
+#ifndef M_LOGW
+#define M_LOGW(...) L_LOGW(__VA_ARGS__)
+#endif
+
+#ifndef M_LOGI
+#define M_LOGI(...) L_LOGI(__VA_ARGS__)
+#endif
+
+#ifndef M_LOGD
+#define M_LOGD(...) L_LOGD(__VA_ARGS__)
+#endif
+
+#ifndef M_LOGV
+#define M_LOGV(...) L_LOGV(__VA_ARGS__)
+#endif
 
 #define X_ENUM_NAME m_event_type
 #define X_ITEM_PREFIX M_EVENT_TYPE
@@ -27,7 +40,7 @@
 #endif
 #include "X_enum.h"
 
-#define X_ITEMS M_STATES 
+#define X_ITEMS M_STATES
 #define X_ENUM_NAME M_STATES_ENUM_NAME
 #define X_ITEM_PREFIX M_STATES_ITEM_PREFIX
 
@@ -36,7 +49,7 @@
 #endif
 #include "X_enum.h"
 
-#define X_ITEMS M_TRIGGERS 
+#define X_ITEMS M_TRIGGERS
 #define X_ENUM_NAME M_TRIGGERS_ENUM_NAME
 #define X_ITEM_PREFIX M_TRIGGERS_ITEM_PREFIX
 
@@ -74,11 +87,11 @@
         M_CONTEXT_TYPE context;                                                \
     }
 
-#define M_INIT(A, C)                                                     \
+#define M_INIT(A, C)                                                           \
     {                                                                          \
-        .state = M_STATE_INVALID, .previous_state = M_STATE_INVALID, .next_state = M_STATE_INVALID, \
-        .dispatcher = 0, .next_dispatcher = 0,       \
-        .action_callback = A, .context = C     \
+        .state = M_STATE_INVALID, .previous_state = M_STATE_INVALID,           \
+        .next_state = M_STATE_INVALID, .dispatcher = 0, .next_dispatcher = 0,  \
+        .action_callback = A, .context = C                                     \
     }
 
 #define M_DISPATCH(N, O)                                                       \
@@ -133,25 +146,28 @@
 #define RAISE(N, T, S)                                                         \
     if (fsm->action_callback)                                                  \
     {                                                                          \
-        M_LOGGER("raising " #S " " #T);                                        \
+        M_LOGV("raising " #S " " #T);                                          \
         fsm->action_callback(fsm, T, M_MAKE_STATE(N, S), fsm->context);        \
     }
 
-#define M_STATE_HANDLER(N, O, S, E, L, ...)                                    \
+#define M_STATE_HANDLER(N, O, S, E, C, L, ...)                                 \
     M_ENTER(N, O, S)                                                           \
     {                                                                          \
-        M_LOGGER("enter " #S);                                                 \
+        M_LOGV("enter " #S);                                                   \
         RAISE(N, M_EVENT_TYPE_ENTERING_STATE, S);                              \
         E RAISE(N, M_EVENT_TYPE_ENTERED_STATE, S);                             \
     }                                                                          \
-    M_OCCUPY(N, O, S) : if ((TRIGGER_NONE == TRIGGER)) M_STAY(O, S);           \
+    M_OCCUPY(N, O, S) : if ((TRIGGER_NONE == TRIGGER))                         \
+    {                                                                          \
+        C M_STAY(O, S);                                                        \
+    }                                                                          \
     C_RECURSE(C_FOREACH_XX_YY(MOVE_IF_TRIGGER, N, S, __VA_ARGS__))             \
-    M_LOGGER("invalid state transition attempted, staying at " #S);            \
+    M_LOGW("invalid state transition attempted, staying at " #S);              \
     RAISE(N, M_EVENT_TYPE_INVALID_STATE, INVALID)                              \
     M_STAY(O, S);                                                              \
     M_LEAVE(N, O, S) :                                                         \
     {                                                                          \
-        M_LOGGER("leave " #S);                                                 \
+        M_LOGV("leave " #S);                                                   \
         RAISE(N, M_EVENT_TYPE_LEAVING_STATE, S);                               \
         L RAISE(N, M_EVENT_TYPE_LEFT_STATE, S);                                \
         M_GO(O, S);                                                            \
@@ -162,14 +178,14 @@
         O->next_state = M_STATE_INVALID;                                       \
         O->dispatcher = O->next_dispatcher;                                    \
         O->next_dispatcher = 0;                                                \
-        M_LOGGER("gone");                                                      \
+        M_LOGV("gone");                                                        \
         goto CRANK;                                                            \
     }
 
 #define MOVE_IF_TRIGGER(N, S, T, X)                                            \
     if (TRIGGER == TRIGGER(N, T))                                              \
     {                                                                          \
-        M_LOGGER("moving to " #X);                                             \
+        M_LOGV("moving to " #X);                                               \
         fsm->next_state = M_MAKE_STATE(N, X);                                  \
         M_DISPATCH_LEAVE_AND_MOVE(fsm, S, X);                                  \
     }
@@ -212,12 +228,14 @@
     ((TRIGGER_NONE != TRIGGER) && (M_MAKE_TRIGGER(N, T) != TRIGGER))
 
 #define M_FSM(N, C)                                                            \
-    _Pragma("GCC diagnostic push") _Pragma(                                    \
-        "GCC diagnostic ignored \"-Wunused-label\"") static C_CONCAT(N, _state_type)     \
-        C_CONCAT(N, _fsm_move_next)(C_CONCAT(N, _fsm_type) *fsm, C_CONCAT(N, _trigger_type) TRIGGER)         \
+    _Pragma("GCC diagnostic push")                                             \
+        _Pragma("GCC diagnostic ignored \"-Wunused-label\"") static C_CONCAT(  \
+            N, _state_type)                                                    \
+            C_CONCAT(N, _fsm_move_next)(C_CONCAT(N, _fsm_type) * fsm,          \
+                                        C_CONCAT(N, _trigger_type) TRIGGER)    \
     {                                                                          \
         void *dispatcher = 0;                                                  \
-        CONTEXT(fsm, C_CONCAT(N, _context_type));                                        \
+        CONTEXT(fsm, C_CONCAT(N, _context_type));                              \
         DISPATCH(fsm);                                                         \
         C CRANK : TRIGGER = TRIGGER_NONE;                                      \
         if (fsm->dispatcher && (fsm->dispatcher != dispatcher))                \
@@ -225,18 +243,6 @@
         return M_HAS_MOVED(fsm);                                               \
     }                                                                          \
     _Pragma("GCC diagnostic pop")
-
-// todo crz: make these fit
-#define M_CASE_ZERO_TO_INVALID                                                 \
-    case 0:                                                                    \
-        return "INVALID"
-#define M_CASE_ID_TO_STRING(N)                                                 \
-    case N:                                                                    \
-        return #N
-#define M_CASE_DEFAULT_TO_UNKNOWN                                              \
-    default:                                                                   \
-        return "UNKNOWN"
-
 
 #define TRIGGER_NONE M_TRIGGER_NONE
 #define ACTION_NONE M_ACTION_NONE
@@ -248,7 +254,6 @@
 #ifndef M_CONTEXT_TYPE
 #define M_CONTEXT_TYPE M_CONTEXT_REMOVED_TYPE
 #endif
-
 
 #define ___M_PREFIX(X, N) X##_##N
 #define __M_PREFIX(X, N) ___M_PREFIX(X, N)

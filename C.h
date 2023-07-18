@@ -40,19 +40,23 @@
 
 #define __C_FOREACH_Y() C_FOREACH_Y
 #define __C_FOREACH_X_YY() C_FOREACH_X_YY
-#define __C_FOREACH_XX_YY() C_FOREACH_XX_YY
+#define __C_FOREACH_XX_YY() _C_FOREACH_XX_YY
 
-#define C_FOREACH_Y(M, ARG1, ...)                                                    \
+#define C_FOREACH_Y(M, ARG1, ...)                                              \
     M(ARG1)                                                                    \
     C_IF_ELSE(__C_HAS_ARGS(__VA_ARGS__))                                       \
     (__C_DEFER2(__C_FOREACH_Y)()(M, __VA_ARGS__))()
 
-#define C_FOREACH_X_YY(M, N, ARG1, ARG2, ...)                                          \
+#define C_FOREACH_X_YY(M, N, ARG1, ARG2, ...)                                  \
     M(N, ARG1, ARG2)                                                           \
     C_IF_ELSE(__C_HAS_ARGS(__VA_ARGS__))                                       \
     (__C_DEFER2(__C_FOREACH_X_YY)()(M, N, __VA_ARGS__))()
 
-#define C_FOREACH_XX_YY(M, N, O, ARG1, ARG2, ...)                                          \
-    M(N, O, ARG1, ARG2)                                                           \
+#define _C_FOREACH_XX_YY(M, N, O, ARG1, ARG2, ...)                             \
+    M(N, O, ARG1, ARG2)                                                        \
     C_IF_ELSE(__C_HAS_ARGS(__VA_ARGS__))                                       \
     (__C_DEFER2(__C_FOREACH_XX_YY)()(M, N, O, __VA_ARGS__))()
+
+#define C_FOREACH_XX_YY(M, N, O, ...)                                          \
+    C_IF_ELSE(__C_HAS_ARGS(__VA_ARGS__))                                       \
+    (_C_FOREACH_XX_YY(M, N, O, __VA_ARGS__))()
