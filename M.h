@@ -162,7 +162,7 @@
         C M_STAY(O, S);                                                        \
     }                                                                          \
     C_RECURSE(C_FOREACH_XX_YY(MOVE_IF_TRIGGER, N, S, __VA_ARGS__))             \
-    M_LOGW("invalid state transition attempted, staying at " #S);              \
+    M_LOGW("invalid trigger '%d', staying at " #S, TRIGGER);              \
     RAISE(N, M_EVENT_TYPE_INVALID_STATE, INVALID)                              \
     M_STAY(O, S);                                                              \
     M_LEAVE(N, O, S) :                                                         \
@@ -216,6 +216,8 @@
 #define STATE(N, S) M_MAKE_STATE(N, S)
 #define ACTION(N, A) M_MAKE_ACTION(N, A)
 #define MOVE(S) M_MOVE(fsm, S)
+
+#define FROM_MOVE_TO(S, X) M_DISPATCH_LEAVE_AND_MOVE(fsm, S, X)
 
 #define MATCH_ANY_TRIGGER (1)
 #define MATCH_NO_TRIGGER (0)
