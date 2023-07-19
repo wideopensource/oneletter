@@ -59,4 +59,4 @@
 
 #define C_FOREACH_XX_YY(M, N, O, ...)                                          \
     C_IF_ELSE(__C_HAS_ARGS(__VA_ARGS__))                                       \
-    (_C_FOREACH_XX_YY(M, N, O, __VA_ARGS__))()
+    (__C_DEFER2(_C_FOREACH_XX_YY)(M, N, O, __VA_ARGS__))()
