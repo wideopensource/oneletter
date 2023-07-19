@@ -63,31 +63,31 @@ do { \
     L_platform_log(Level, L_LOG_TOSTRING(L_LIB_TAG) "-" L_LOG_TOSTRING(L_LOG_TAG), L_LOG_TOSTRING(__FILE__), L_LOG_TOSTRING(__LINE__), Format, ##__VA_ARGS__); \
 } while (0)
 
-#if CONFIG_4ML_LOGI_DISABLE
+#ifdef L_LOGI_DISABLE
 #define L_LOGI(F, ...)
 #else
 #define L_LOGI(F, ...) L_LOG_IMPL(L_LOG_LEVEL_I, F, ##__VA_ARGS__)
 #endif
 
-#if CONFIG_4ML_LOGD_DISABLE
+#ifdef L_LOGD_DISABLE
 #define L_LOGD(F, ...)
 #else
 #define L_LOGD(F, ...) L_LOG_IMPL(L_LOG_LEVEL_D, F, ##__VA_ARGS__)
 #endif
 
-#if CONFIG_4ML_LOGV_DISABLE
+#ifdef L_LOGV_DISABLE
 #define L_LOGV(F, ...)
 #else
 #define L_LOGV(F, ...) L_LOG_IMPL(L_LOG_LEVEL_V, F, ##__VA_ARGS__)
 #endif
 
-#if CONFIG_4ML_LOGW_DISABLE
+#ifdef L_LOGW_DISABLE
 #define L_LOGW(F, ...)
 #else
 #define L_LOGW(F, ...) L_LOG_IMPL(L_LOG_LEVEL_W, F, ##__VA_ARGS__)
 #endif
 
-#if CONFIG_4ML_LOGE_DISABLE
+#ifdef L_LOGE_DISABLE
 #define L_LOGE(F, ...)
 #else
 #define L_LOGE(F, ...) L_LOG_IMPL(L_LOG_LEVEL_E, F, ##__VA_ARGS__)
