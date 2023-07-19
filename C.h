@@ -1,7 +1,12 @@
 #define C_CONCAT(A, B) A##B
+#define C_CONCAT3(A, B, C) A##B##C
+
+#define __C_STRINGISE(S) #S
+#define C_STRINGISE(S) __C_STRINGISE(S)
 
 #define C_FIRST(ARG1, ...) ARG1
 #define C_SECOND(ARG1, ARG2, ...) ARG2
+#define C_THIRD(ARG1, ARG2, ARG3, ...) ARG3
 
 #define __C_HAS_ONE_ARG_PROBE() __DUMMY, 1
 #define __C_HAS_ONE_ARG(...) C_SECOND(__VA_ARGS__, 0)
