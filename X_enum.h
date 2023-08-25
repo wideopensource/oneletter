@@ -38,8 +38,10 @@
 #define X_SIG_AT X_ENUM_TYPE X_FUNCTION_NAME(at)(int index)
 #define X_SIG_INDEX_OF int X_FUNCTION_NAME(index_of)(X_ENUM_TYPE item)
 
-#define X_SIG_FLAG_OF X_FLAGS_TYPE X_FUNCTION_NAME(flag_of)(X_ENUM_TYPE item)
 #define X_SIG_CLAMP X_ENUM_TYPE X_FUNCTION_NAME(clamp)(int value)
+
+#ifndef X_NOFLAGS
+#define X_SIG_FLAG_OF X_FLAGS_TYPE X_FUNCTION_NAME(flag_of)(X_ENUM_TYPE item)
 #define X_SIG_TEST_FLAG                                                        \
     X_FLAGS_TYPE X_FUNCTION_NAME(test_flag)(X_FLAGS_TYPE data, X_ENUM_TYPE item)
 #define X_SIG_SET_FLAG                                                         \
@@ -47,6 +49,7 @@
 #define X_SIG_CLEAR_FLAG                                                       \
     X_FLAGS_TYPE X_FUNCTION_NAME(clear_flag)(X_FLAGS_TYPE data,                \
                                              X_ENUM_TYPE item)
+#endif
 
 #define X_SIG_DEBUG_PRINT_ALL void X_FUNCTION_NAME(print_all)(void *context)
 
@@ -93,10 +96,13 @@ X_SIG_COUNT;
 X_SIG_AT;
 X_SIG_INDEX_OF;
 X_SIG_CLAMP;
+
+#ifndef X_NOFLAGS
 X_SIG_FLAG_OF;
 X_SIG_TEST_FLAG;
 X_SIG_SET_FLAG;
 X_SIG_CLEAR_FLAG;
+#endif
 
 X_SIG_DEBUG_PRINT_ALL;
 
@@ -124,9 +130,14 @@ X_SIG_DEBUG_PRINT_ALL
     {
         X_ENUM_TYPE const e = X_FUNCTION_NAME(at)(i);
 
+#ifndef X_NOFLAGS
         fprintf(fp, "%d: %s=%d, index: %d, flag: 0x%x\n", i,
                 X_FUNCTION_NAME(to_string)(e), e, X_FUNCTION_NAME(index_of)(e),
                 X_FUNCTION_NAME(flag_of)(e));
+#else
+        fprintf(fp, "%d: %s=%d, index: %d\n", i,
+                X_FUNCTION_NAME(to_string)(e), e, X_FUNCTION_NAME(index_of)(e));
+#endif
     }
 }
 
