@@ -15,6 +15,8 @@
 // #define X_ENUM_ARRAY_NAME X_SUFFIX(X_ENUM_NAME, X_ENUM_ARRAY_SUFFIX)
 // #endif
 
+#define X_FLAGS_TYPE unsigned int
+
 #define X_FLAG_PREFIX(N) X_SUFFIX(X_ITEM_PREFIX, FLAG)
 #define X_INDEX_PREFIX(N) X_SUFFIX(X_ITEM_PREFIX, INDEX)
 
@@ -35,14 +37,15 @@
 #define X_SIG_COUNT int X_FUNCTION_NAME(count)()
 #define X_SIG_AT X_ENUM_TYPE X_FUNCTION_NAME(at)(int index)
 #define X_SIG_INDEX_OF int X_FUNCTION_NAME(index_of)(X_ENUM_TYPE item)
-#define X_SIG_FLAG_OF unsigned int X_FUNCTION_NAME(flag_of)(X_ENUM_TYPE item)
+
+#define X_SIG_FLAG_OF X_FLAGS_TYPE X_FUNCTION_NAME(flag_of)(X_ENUM_TYPE item)
 #define X_SIG_CLAMP X_ENUM_TYPE X_FUNCTION_NAME(clamp)(int value)
 #define X_SIG_TEST_FLAG                                                        \
-    unsigned int X_FUNCTION_NAME(test_flag)(unsigned int data, X_ENUM_TYPE item)
+    X_FLAGS_TYPE X_FUNCTION_NAME(test_flag)(X_FLAGS_TYPE data, X_ENUM_TYPE item)
 #define X_SIG_SET_FLAG                                                         \
-    unsigned int X_FUNCTION_NAME(set_flag)(unsigned int data, X_ENUM_TYPE item)
+    X_FLAGS_TYPE X_FUNCTION_NAME(set_flag)(X_FLAGS_TYPE data, X_ENUM_TYPE item)
 #define X_SIG_CLEAR_FLAG                                                       \
-    unsigned int X_FUNCTION_NAME(clear_flag)(unsigned int data,                \
+    X_FLAGS_TYPE X_FUNCTION_NAME(clear_flag)(X_FLAGS_TYPE data,                \
                                              X_ENUM_TYPE item)
 
 #define X_SIG_DEBUG_PRINT_ALL void X_FUNCTION_NAME(print_all)(void *context)
@@ -69,9 +72,11 @@ enum X_MEMBER_PRIVATE(X_ENUM_NAME, meta_enum)
     X_NEXT_ITEM,
     X_MAX_ITEM = X_NEXT_ITEM - 1, // todo foss: this is _last_, not max
 
+#ifndef X_NOFLAGS
 #define X(N, V, ...) X_FLAG_NAME(N) = 1 << X_INDEX_NAME(N),
     X_ITEMS(X)
 #undef X
+#endif
 };
 
 X_ENUM_TYPE{
@@ -156,6 +161,7 @@ X_SIG_CLAMP
     return value > X_MAX_ITEM ? X_MAX_ITEM : X_FUNCTION_NAME(at)(0);
 }
 
+#ifndef X_NOFLAGS
 X_SIG_FLAG_OF
 {
     switch (item)
@@ -212,6 +218,7 @@ X_SIG_CLEAR_FLAG
         return data;
     }
 }
+#endif
 
 X_SIG_TOSTRING
 {
@@ -322,6 +329,10 @@ X_SIG_INDEX_OF
 #undef X_SIG_DEBUG_PRINT_ALL
 
 #undef X_INVALID_ITEM
+
+#ifdef X_NOFLAGS
+#undef X_NOFLAGS
+#endif
 
 #else
 #undef X_PRESERVE
