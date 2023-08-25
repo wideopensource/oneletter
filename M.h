@@ -150,6 +150,8 @@
         fsm->action_callback(fsm, T, M_MAKE_STATE(N, S), fsm->context);        \
     }
 
+#define TRIGGER_TO_STRING(T) C_CONCAT(M_TRIGGERS_ENUM_NAME, _to_string)(T)
+
 #define M_STATE_HANDLER(N, O, S, E, C, L, ...)                                 \
     M_ENTER(N, O, S)                                                           \
     {                                                                          \
@@ -162,7 +164,7 @@
         C M_STAY(O, S);                                                        \
     }                                                                          \
     C_RECURSE(C_FOREACH_XX_YY(MOVE_IF_TRIGGER, N, S, __VA_ARGS__))             \
-    M_LOGW("invalid trigger '%d', staying at " #S, TRIGGER);              \
+    M_LOGW("invalid trigger '%s', staying at " #S, TRIGGER_TO_STRING(TRIGGER));              \
     RAISE(N, M_EVENT_TYPE_INVALID_STATE, INVALID)                              \
     M_STAY(O, S);                                                              \
     M_LEAVE(N, O, S) :                                                         \

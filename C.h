@@ -1,4 +1,5 @@
-#define C_CONCAT(A, B) A##B
+#define __C_CONCAT(A, B) A##B
+#define C_CONCAT(A, B) __C_CONCAT(A, B)
 #define C_CONCAT3(A, B, C) A##B##C
 
 #define __C_STRINGISE(S) #S

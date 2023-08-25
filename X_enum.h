@@ -15,7 +15,7 @@
 // #define X_ENUM_ARRAY_NAME X_SUFFIX(X_ENUM_NAME, X_ENUM_ARRAY_SUFFIX)
 // #endif
 
-#define X_FLAGS_TYPE unsigned int
+#define X_FLAGS_TYPE unsigned int 
 
 #define X_FLAG_PREFIX(N) X_SUFFIX(X_ITEM_PREFIX, FLAG)
 #define X_INDEX_PREFIX(N) X_SUFFIX(X_ITEM_PREFIX, INDEX)
