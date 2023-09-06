@@ -1,3 +1,5 @@
+#ifdef ONELETTER_TEST
+
 #include <stdio.h>
 
 #define L_LIB_TAG LLIB
@@ -17,3 +19,5 @@ int main()
 
     return 0;
 }
+
+#endif

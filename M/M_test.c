@@ -1,3 +1,5 @@
+#ifdef ONELETTER_TEST
+
 #include <assert.h>
 #include <stdio.h>
 
@@ -139,3 +141,6 @@ int main()
 
     return 0;
 }
+
+#endif
+
