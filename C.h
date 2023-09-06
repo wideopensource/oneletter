@@ -66,3 +66,13 @@
 #define C_FOREACH_XX_YY(M, N, O, ...)                                          \
     C_IF_ELSE(__C_HAS_ARGS(__VA_ARGS__))                                       \
     (__C_DEFER2(_C_FOREACH_XX_YY)(M, N, O, __VA_ARGS__))()
+
+#define C_MASK_1(L) (0b1 << (L))
+#define C_MASK_2(L) (0b11 << (L))
+#define C_MASK_3(L) (0b111 << (L))
+#define C_MASK_4(L) (0b1111 << (L))
+
+#define C_STRING_OR_EMPTY(S) ((S) ? (S) : "")
+
+#define C_ARRAY_NUMBER_OF_ELEMENTS(A) (sizeof((A)) / sizeof((A)[0]))
+
