@@ -76,3 +76,7 @@
 
 #define C_ARRAY_NUMBER_OF_ELEMENTS(A) (sizeof((A)) / sizeof((A)[0]))
 
+#define C_SWAP_BYTES(A) ((((A) & 0xff00) >> 8) | (((A) & 0xff) << 8))
+
+
+
