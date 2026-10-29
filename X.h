@@ -1,7 +1,7 @@
 #ifndef X_DEFINED
 #define X_DEFINED
 
-#define X_ARRAY_LENGTH(A) (sizeof(A) / sizeof(A[0]))
+#define X_ARRAY_LENGTH(A) (sizeof(A) / sizeof((A)[0]))
 
 #define X_TOSTRING(N) X_TOSTRING2(N)
 #define X_TOSTRING2(N) #N

@@ -6,6 +6,14 @@ class BootstrapTests(Tester):
         self.assertIsNotNone(self.sut)
 
 
+class ArrayLengthTests(Tester):
+    def test_X_ARRAY_LENGTH(self):
+        self.assertEqual(5, self.sut.x_tdd_array_length_is_5())
+
+    def test_X_ARRAY_LENGTH_of_cast(self):
+        self.assertEqual(4, self.sut.x_tdd_array_length_of_cast_is_4())
+
+
 class StrcmpCommonTests(Tester):
     def test_X_strcmp_empty_equal(self):
         self.assertZero(self.sut.X_strcmp(b'', b''))

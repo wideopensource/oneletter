@@ -3,4 +3,18 @@
 #define X_IMPL
 #include "x_tdd.h"
 
+int x_tdd_array_length_is_5(void)
+{
+    int a[5];
+
+    return X_ARRAY_LENGTH(a);
+}
+
+int x_tdd_array_length_of_cast_is_4(void)
+{
+    static char buffer[4 * sizeof(int)];
+
+    return X_ARRAY_LENGTH(*(int(*)[4])buffer);
+}
+
 #endif
