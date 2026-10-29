@@ -45,6 +45,16 @@ static int X_to_upper(int c)
 
 int X_strcmp(char const *s1, char const *s2)
 {
+    if (s1 == s2)
+    {
+        return 0;
+    }
+
+    if (0 == s1 || 0 == s2)
+    {
+        return 1;
+    }
+
     for (;;)
     {
         int const c1 = X_clean(*s1++);
@@ -64,6 +74,16 @@ int X_strcmp(char const *s1, char const *s2)
 
 int X_strcmpi(char const *s1, char const *s2)
 {
+    if (s1 == s2)
+    {
+        return 0;
+    }
+
+    if (0 == s1 || 0 == s2)
+    {
+        return 1;
+    }
+
     for (;;)
     {
         int const c1 = X_to_upper(X_clean(*s1++));

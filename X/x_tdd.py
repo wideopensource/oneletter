@@ -73,6 +73,30 @@ class StrcmpCommonTests(Tester):
     def test_X_strcmpi_long_prefix_not_equal(self):
         self.assertNotZero(self.sut.X_strcmpi(b'item1', b'item10'))
 
+    def test_X_strcmp_null_equal(self):
+        null = self.factory.null_pointer
+        self.assertZero(self.sut.X_strcmp(null, null))
+
+    def test_X_strcmpi_null_equal(self):
+        null = self.factory.null_pointer
+        self.assertZero(self.sut.X_strcmpi(null, null))
+
+    def test_X_strcmp_first_null_not_equal(self):
+        null = self.factory.null_pointer
+        self.assertNotZero(self.sut.X_strcmp(null, b'a'))
+
+    def test_X_strcmpi_first_null_not_equal(self):
+        null = self.factory.null_pointer
+        self.assertNotZero(self.sut.X_strcmpi(null, b'a'))
+
+    def test_X_strcmp_second_null_not_equal(self):
+        null = self.factory.null_pointer
+        self.assertNotZero(self.sut.X_strcmp(b'a', null))
+
+    def test_X_strcmpi_second_null_not_equal(self):
+        null = self.factory.null_pointer
+        self.assertNotZero(self.sut.X_strcmpi(b'a', null))
+
 
 class StrcmpTests(Tester):
     def test_X_strcmp_case_not_equal(self):

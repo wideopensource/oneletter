@@ -125,6 +125,14 @@ class Tests(Tester):
         self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parsei(b'item1x'))
         self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parsei(b'item10'))
 
+    def test_parse_null_invalid(self):
+        null = self.factory.null_pointer
+        self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parse(null))
+
+    def test_parsei_null_invalid(self):
+        null = self.factory.null_pointer
+        self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parsei(null))
+
     def test_parse(self):
         self.assertEqual(self.sut.EUT_ITEM1, self.sut.eut_parse(b'ITEM1'))
         self.assertEqual(self.sut.EUT_ITEM2, self.sut.eut_parse(b'ITEM2'))
