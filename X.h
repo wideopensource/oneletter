@@ -39,9 +39,9 @@ static int X_clean(int c)
 
 static int X_to_upper(int c)
 {
-    if ('A' <= c && 'Z' >= c)
+    if ('a' <= c && 'z' >= c)
     {
-        return c - 'A' + 'a';
+        return c - 'a' + 'A';
     }
 
     return c;

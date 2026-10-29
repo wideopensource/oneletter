@@ -14,6 +14,20 @@ class ArrayLengthTests(Tester):
         self.assertEqual(4, self.sut.x_tdd_array_length_of_cast_is_4())
 
 
+class ToUpperTests(Tester):
+    def test_X_to_upper_from_lower_case(self):
+        self.assertEqual(ord('A'), self.sut.x_tdd_to_upper(ord('a')))
+        self.assertEqual(ord('Z'), self.sut.x_tdd_to_upper(ord('z')))
+
+    def test_X_to_upper_from_upper_case(self):
+        self.assertEqual(ord('A'), self.sut.x_tdd_to_upper(ord('A')))
+        self.assertEqual(ord('Z'), self.sut.x_tdd_to_upper(ord('Z')))
+
+    def test_X_to_upper_from_junk(self):
+        for c in '09_-@[`{':
+            self.assertEqual(ord(c), self.sut.x_tdd_to_upper(ord(c)))
+
+
 class StrcmpCommonTests(Tester):
     def test_X_strcmp_empty_equal(self):
         self.assertZero(self.sut.X_strcmp(b'', b''))
