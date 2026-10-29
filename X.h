@@ -1,4 +1,5 @@
-#pragma once
+#ifndef X_DEFINED
+#define X_DEFINED
 
 #define X_ARRAY_LENGTH(A) (sizeof(A) / sizeof(A[0]))
 
@@ -21,7 +22,10 @@
 int X_strcmp(char const *s1, char const *s2);
 int X_strcmpi(char const *s1, char const *s2);
 
-#ifdef X_IMPL
+#endif
+
+#if defined(X_IMPL) && !defined(X_IMPL_DEFINED)
+#define X_IMPL_DEFINED
 
 static int X_clean(int c)
 {
@@ -101,6 +105,6 @@ int X_strcmpi(char const *s1, char const *s2)
     }
 }
 
-#undef X_IMPL
-
 #endif
+
+#undef X_IMPL

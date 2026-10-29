@@ -11,3 +11,4 @@ set -e
 # until ctdd gets `Tester.addMacro('ONELETTER_TEST').go()` you need to define the macro:
 CFLAGS=-DONELETTER_TEST python3 x_tdd.py
 CFLAGS=-DONELETTER_TEST python3 x_enum_tdd.py
+CFLAGS=-DONELETTER_TEST python3 x_impl_tdd.py
