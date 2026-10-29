@@ -45,30 +45,40 @@ static int X_to_upper(int c)
 
 int X_strcmp(char const *s1, char const *s2)
 {
-    do
+    for (;;)
     {
         int const c1 = X_clean(*s1++);
         int const c2 = X_clean(*s2++);
 
-        if (c1 != c2) return 1;
-    }
-    while(*s1 && *s2);
+        if (c1 != c2)
+        {
+            return 1;
+        }
 
-    return 0;
+        if (0 == c1)
+        {
+            return 0;
+        }
+    }
 }
 
 int X_strcmpi(char const *s1, char const *s2)
 {
-    do
+    for (;;)
     {
         int const c1 = X_to_upper(X_clean(*s1++));
         int const c2 = X_to_upper(X_clean(*s2++));
 
-        if (c1 != c2) return 1;
-    }
-    while(*s1 && *s2);
+        if (c1 != c2)
+        {
+            return 1;
+        }
 
-    return 0;
+        if (0 == c1)
+        {
+            return 0;
+        }
+    }
 }
 
 #undef X_IMPL

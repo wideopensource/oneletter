@@ -55,6 +55,24 @@ class StrcmpCommonTests(Tester):
     def test_X_strcmpi_long_equal(self):
         self.assertZero(self.sut.X_strcmpi(b'aa', b'aa'))
 
+    def test_X_strcmp_first_prefix_not_equal(self):
+        self.assertNotZero(self.sut.X_strcmp(b'a', b'ab'))
+
+    def test_X_strcmpi_first_prefix_not_equal(self):
+        self.assertNotZero(self.sut.X_strcmpi(b'a', b'ab'))
+
+    def test_X_strcmp_second_prefix_not_equal(self):
+        self.assertNotZero(self.sut.X_strcmp(b'ab', b'a'))
+
+    def test_X_strcmpi_second_prefix_not_equal(self):
+        self.assertNotZero(self.sut.X_strcmpi(b'ab', b'a'))
+
+    def test_X_strcmp_long_prefix_not_equal(self):
+        self.assertNotZero(self.sut.X_strcmp(b'item1', b'item10'))
+
+    def test_X_strcmpi_long_prefix_not_equal(self):
+        self.assertNotZero(self.sut.X_strcmpi(b'item1', b'item10'))
+
 
 class StrcmpTests(Tester):
     def test_X_strcmp_case_not_equal(self):
@@ -64,6 +82,9 @@ class StrcmpTests(Tester):
 class StrcmpiTests(Tester):
     def test_X_strcmp_case_equal(self):
         self.assertZero(self.sut.X_strcmpi(b'a', b'A'))
+
+    def test_X_strcmpi_case_prefix_not_equal(self):
+        self.assertNotZero(self.sut.X_strcmpi(b'A', b'ab'))
 
 
 Tester.go()

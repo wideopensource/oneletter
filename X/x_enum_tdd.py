@@ -110,6 +110,21 @@ class Tests(Tester):
         self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parse(b'ITEM0'))
         self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parse(b'ITEm2'))
 
+    def test_parse_truncated_invalid(self):
+        self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parse(b'ITEM'))
+        self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parse(b'I'))
+
+    def test_parse_extended_invalid(self):
+        self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parse(b'ITEM1X'))
+        self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parse(b'ITEM10'))
+
+    def test_parsei_truncated_invalid(self):
+        self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parsei(b'item'))
+
+    def test_parsei_extended_invalid(self):
+        self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parsei(b'item1x'))
+        self.assertEqual(self.sut.EUT_INVALID, self.sut.eut_parsei(b'item10'))
+
     def test_parse(self):
         self.assertEqual(self.sut.EUT_ITEM1, self.sut.eut_parse(b'ITEM1'))
         self.assertEqual(self.sut.EUT_ITEM2, self.sut.eut_parse(b'ITEM2'))
